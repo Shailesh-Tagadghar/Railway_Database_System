@@ -1,0 +1,51 @@
+# multiple subquery :
+
+select ticket_id,train_num,seat from ticket where (ticket_id) in (select ticket_id from payment where payment_medium in ("Gpay","Paytm"));
+
+select ticket_id,train_num,email_id from ticket where (ticket_id) in (select ticket_id from passenger where age > 40);
+
+select source_station,destinaition_station,seats_avail,train_num from train where train_num in (select train_num from ticket where email_id like "d%");
+
+select first_name,aadhar_num,email_id from userdata where email_id in (select email_id from payment where amount > 300);
+
+#joins :
+
+select payment.ticket_id,payment.amount,ticket.email_id from payment inner join ticket on payment.email_id=ticket.email_id;
+
+select train.train_num,train.source_station,ticket.ticket_id from train left join ticket on train.train_num=ticket.train_num;
+
+select train.train_num,train.source_station,ticket.ticket_id from train right join ticket on train.train_num=ticket.train_num;
+
+select train.train_num,train.source_station,ticket.ticket_id from train left join ticket on train.train_num=ticket.train_num union select train.train_num,train.source_station,ticket.ticket_id from train right join ticket on train.train_num=ticket.train_num;
+
+#view :
+
+#single view :
+
+create view user_help as select employee.first_name, employee.last_name,employee.Phone_number from employee where employee.roles=4;
+
+select * from user_help;
+
+#multiple view :
+
+create view multiview as select ticket.ticket_id,ticket.seat,payment.email_id,payment.payment_medium from ticket,payment where ticket.ticket_id=payment.ticket_id;
+
+select * from multiview;
+
+#update view :
+
+update user_help set first_name="user" where last_name="jone";
+
+select * from user_help;
+
+#delete record view:
+
+delete from user_help where first_name="user";
+
+select * from user_help;
+
+#drop view :
+
+drop view user_help;
+
+select * from user_help;
